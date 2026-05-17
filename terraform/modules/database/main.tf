@@ -4,7 +4,7 @@
 # ─────────────────────────────────────────
 
 resource "aws_secretsmanager_secret" "db_password" {
-  name        = "oceans-across/database/master-password-${var.environment}"
+  name        = "test/database/master-password-${var.environment}"
   description = "RDS master password for payroll database"
 
   # Retain for 7 days after deletion - allows recovery if deleted by mistake
@@ -137,7 +137,7 @@ resource "aws_db_instance" "main" {
 # ─────────────────────────────────────────
 
 resource "aws_db_parameter_group" "main" {
-  name        = "oceans-across-postgres-params-${var.environment}"
+  name        = "test-postgres-params-${var.environment}"
   family      = "postgres15"
   description = "Custom parameter group forcing SSL on all RDS connections"
 
@@ -147,6 +147,6 @@ resource "aws_db_parameter_group" "main" {
   }
 
   tags = {
-    Name = "oceans-across-postgres-params-${var.environment}"
+    Name = "test-postgres-params-${var.environment}"
   }
 }

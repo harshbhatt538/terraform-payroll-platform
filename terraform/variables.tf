@@ -37,7 +37,7 @@ variable "db_name" {
 variable "s3_bucket_name" {
   description = "Name of the S3 bucket for payroll documents"
   type        = string
-  default     = "oceans-across-payroll-documents"
+  default     = "test-payroll-documents"
 }
 
 variable "ami_id" {

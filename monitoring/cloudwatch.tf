@@ -58,10 +58,10 @@ variable "rds_instance_identifier" {
 # ─────────────────────────────────────────
 
 resource "aws_sns_topic" "critical_alerts" {
-  name = "oceans-across-critical-alerts-${var.environment}"
+  name = "test-critical-alerts-${var.environment}"
 
   tags = {
-    Name        = "oceans-across-critical-alerts-${var.environment}"
+    Name        = "test-critical-alerts-${var.environment}"
     Environment = var.environment
   }
 }
@@ -80,7 +80,7 @@ resource "aws_sns_topic_subscription" "email" {
 # ─────────────────────────────────────────
 
 resource "aws_cloudwatch_log_group" "companies" {
-  name              = "/oceans-across/companies/${var.environment}"
+  name              = "/test/companies/${var.environment}"
   retention_in_days = 30
 
   tags = {
@@ -90,7 +90,7 @@ resource "aws_cloudwatch_log_group" "companies" {
 }
 
 resource "aws_cloudwatch_log_group" "bureaus" {
-  name              = "/oceans-across/bureaus/${var.environment}"
+  name              = "/test/bureaus/${var.environment}"
   retention_in_days = 30
 
   tags = {
@@ -100,7 +100,7 @@ resource "aws_cloudwatch_log_group" "bureaus" {
 }
 
 resource "aws_cloudwatch_log_group" "employees" {
-  name              = "/oceans-across/employees/${var.environment}"
+  name              = "/test/employees/${var.environment}"
   retention_in_days = 30
 
   tags = {
@@ -110,7 +110,7 @@ resource "aws_cloudwatch_log_group" "employees" {
 }
 
 resource "aws_cloudwatch_log_group" "rds" {
-  name              = "/oceans-across/rds/${var.environment}"
+  name              = "/test/rds/${var.environment}"
   retention_in_days = 30
 
   tags = {
@@ -120,7 +120,7 @@ resource "aws_cloudwatch_log_group" "rds" {
 }
 
 resource "aws_cloudwatch_log_group" "infrastructure" {
-  name              = "/oceans-across/infrastructure/${var.environment}"
+  name              = "/test/infrastructure/${var.environment}"
   retention_in_days = 90
 
   # Infrastructure logs kept longer for compliance and audit
@@ -137,7 +137,7 @@ resource "aws_cloudwatch_log_group" "infrastructure" {
 # ─────────────────────────────────────────
 
 resource "aws_cloudwatch_metric_alarm" "companies_cpu" {
-  alarm_name          = "oceans-across-companies-cpu-high-${var.environment}"
+  alarm_name          = "test-companies-cpu-high-${var.environment}"
   alarm_description   = "Companies portal EC2 CPU utilisation above 80%"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 2
@@ -162,7 +162,7 @@ resource "aws_cloudwatch_metric_alarm" "companies_cpu" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "bureaus_cpu" {
-  alarm_name          = "oceans-across-bureaus-cpu-high-${var.environment}"
+  alarm_name          = "test-bureaus-cpu-high-${var.environment}"
   alarm_description   = "Bureaus portal EC2 CPU utilisation above 80%"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 2
@@ -187,7 +187,7 @@ resource "aws_cloudwatch_metric_alarm" "bureaus_cpu" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "employees_cpu" {
-  alarm_name          = "oceans-across-employees-cpu-high-${var.environment}"
+  alarm_name          = "test-employees-cpu-high-${var.environment}"
   alarm_description   = "Employees portal EC2 CPU utilisation above 80%"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 2
@@ -218,7 +218,7 @@ resource "aws_cloudwatch_metric_alarm" "employees_cpu" {
 # ─────────────────────────────────────────
 
 resource "aws_cloudwatch_metric_alarm" "rds_connections" {
-  alarm_name          = "oceans-across-rds-connections-high-${var.environment}"
+  alarm_name          = "test-rds-connections-high-${var.environment}"
   alarm_description   = "RDS connection count above threshold - possible connection leak"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 2
@@ -243,7 +243,7 @@ resource "aws_cloudwatch_metric_alarm" "rds_connections" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "rds_cpu" {
-  alarm_name          = "oceans-across-rds-cpu-high-${var.environment}"
+  alarm_name          = "test-rds-cpu-high-${var.environment}"
   alarm_description   = "RDS CPU utilisation above 80%"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 2
@@ -268,7 +268,7 @@ resource "aws_cloudwatch_metric_alarm" "rds_cpu" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "rds_storage" {
-  alarm_name          = "oceans-across-rds-storage-low-${var.environment}"
+  alarm_name          = "test-rds-storage-low-${var.environment}"
   alarm_description   = "RDS free storage below 5GB - risk of database failure"
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = 1
@@ -298,7 +298,7 @@ resource "aws_cloudwatch_metric_alarm" "rds_storage" {
 # ─────────────────────────────────────────
 
 resource "aws_cloudwatch_event_rule" "rds_public_access" {
-  name        = "oceans-across-rds-public-access-${var.environment}"
+  name        = "test-rds-public-access-${var.environment}"
   description = "Fires if RDS instance is modified to be publicly accessible"
 
   event_pattern = jsonencode({

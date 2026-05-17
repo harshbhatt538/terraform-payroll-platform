@@ -79,7 +79,7 @@ Secrets Manager policies.
 - Added explicit Deny statements myself - AI only added Allow. The Deny ensures that
   even if a future policy change accidentally grants broader access, the Deny takes
   precedence and blocks cross-tenant access at the IAM layer.
-- Scoped Secrets Manager by path (`oceans-across/companies/*`) - AI initially gave
+- Scoped Secrets Manager by path (`test/companies/*`) - AI initially gave
   access to all secrets. A companies EC2 has no business reading employees secrets.
 
 ---

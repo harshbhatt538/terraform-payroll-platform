@@ -74,7 +74,7 @@ resource "aws_iam_policy" "companies_secrets" {
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret"
         ]
-        Resource = "arn:aws:secretsmanager:*:*:secret:oceans-across/companies/*"
+        Resource = "arn:aws:secretsmanager:*:*:secret:test/companies/*"
       }
     ]
   })
@@ -172,7 +172,7 @@ resource "aws_iam_policy" "bureaus_secrets" {
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret"
         ]
-        Resource = "arn:aws:secretsmanager:*:*:secret:oceans-across/bureaus/*"
+        Resource = "arn:aws:secretsmanager:*:*:secret:test/bureaus/*"
       }
     ]
   })
@@ -270,7 +270,7 @@ resource "aws_iam_policy" "employees_secrets" {
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret"
         ]
-        Resource = "arn:aws:secretsmanager:*:*:secret:oceans-across/employees/*"
+        Resource = "arn:aws:secretsmanager:*:*:secret:test/employees/*"
       }
     ]
   })

@@ -14,7 +14,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project     = "oceans-across-payroll"
+      Project     = "test-payroll"
       Environment = var.environment
       ManagedBy   = "terraform"
     }

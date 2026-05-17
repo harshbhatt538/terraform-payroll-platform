@@ -11,7 +11,7 @@
 
 The incident will be detected through one or more of the following:
 
-- **CloudWatch EventBridge rule** `oceans-across-rds-public-access` fires when
+- **CloudWatch EventBridge rule** `test-rds-public-access` fires when
   RDS-EVENT-0088 is triggered - this event fires specifically when an RDS instance
   is modified to become publicly accessible
 - **SNS alert email** sent to the infrastructure team immediately
@@ -30,7 +30,7 @@ The incident will be detected through one or more of the following:
 ### Step 1 - Confirm the exposure
 ```bash
 aws rds describe-db-instances \
-  --db-instance-identifier oceans-across-payroll-db-dev \
+  --db-instance-identifier test-payroll-db-dev \
   --query 'DBInstances[0].PubliclyAccessible' \
   --region eu-west-2
 ```
@@ -39,7 +39,7 @@ If this returns `true` - the database is exposed. Proceed immediately.
 ### Step 2 - Revoke public access
 ```bash
 aws rds modify-db-instance \
-  --db-instance-identifier oceans-across-payroll-db-dev \
+  --db-instance-identifier test-payroll-db-dev \
   --no-publicly-accessible \
   --apply-immediately \
   --region eu-west-2
@@ -66,7 +66,7 @@ aws ec2 revoke-security-group-ingress \
 ```bash
 # Generate new password in Secrets Manager
 aws secretsmanager rotate-secret \
-  --secret-id oceans-across/database/master-password-dev \
+  --secret-id test/database/master-password-dev \
   --region eu-west-2
 ```
 
@@ -88,7 +88,7 @@ Look for: who made the call (userIdentity), from what IP, at what time.
 ```bash
 # Check RDS PostgreSQL logs for connections
 aws logs filter-log-events \
-  --log-group-name /oceans-across/rds/dev \
+  --log-group-name /test/rds/dev \
   --filter-pattern "connection received" \
   --start-time <exposure-start-timestamp-ms> \
   --end-time <remediation-timestamp-ms> \

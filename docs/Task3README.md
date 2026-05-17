@@ -11,7 +11,7 @@ Three separate IAM roles are defined in `terraform/modules/iam/` - one per tenan
   AWS layer.
 
 - **Secrets Manager access** is scoped by path - the companies role can only read secrets
-  under `oceans-across/companies/*` and cannot read bureau or employee secrets under
+  under `test/companies/*` and cannot read bureau or employee secrets under
   any condition.
 
 - **No wildcard resource access** exists anywhere in the IAM configuration. Every policy
@@ -32,12 +32,12 @@ All sensitive values are managed through AWS Secrets Manager:
 
 - The RDS master password is generated at `terraform apply` time using the `random_password`
   resource (32 characters, special characters included) and stored in Secrets Manager
-  at path `oceans-across/database/master-password-{environment}`.
+  at path `test/database/master-password-{environment}`.
 
 - Each tenant's application secrets are stored under their scoped path:
-  - `oceans-across/companies/*`
-  - `oceans-across/bureaus/*`
-  - `oceans-across/employees/*`
+  - `test/companies/*`
+  - `test/bureaus/*`
+  - `test/employees/*`
 
 **Runtime secret injection** - secrets are never passed as environment variables or
 written to config files. At application startup, the service calls Secrets Manager
