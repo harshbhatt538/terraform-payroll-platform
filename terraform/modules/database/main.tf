@@ -1,5 +1,5 @@
 # ─────────────────────────────────────────
-# SECRETS MANAGER — RDS master password
+# SECRETS MANAGER - RDS master password
 # Never hardcoded, injected at runtime
 # ─────────────────────────────────────────
 
@@ -7,7 +7,7 @@ resource "aws_secretsmanager_secret" "db_password" {
   name        = "oceans-across/database/master-password-${var.environment}"
   description = "RDS master password for payroll database"
 
-  # Retain for 7 days after deletion — allows recovery if deleted by mistake
+  # Retain for 7 days after deletion - allows recovery if deleted by mistake
   recovery_window_in_days = 7
 
   tags = {
@@ -25,7 +25,7 @@ resource "aws_secretsmanager_secret_version" "db_password" {
   })
 }
 
-# Generate a strong random password — no hardcoding
+# Generate a strong random password - no hardcoding
 resource "random_password" "db_password" {
   length           = 32
   special          = true
@@ -34,13 +34,13 @@ resource "random_password" "db_password" {
 
 
 # ─────────────────────────────────────────
-# SECURITY GROUP — RDS
+# SECURITY GROUP - RDS
 # Only accepts traffic from EC2 instances
 # ─────────────────────────────────────────
 
 resource "aws_security_group" "rds" {
   name        = "rds-sg-${var.environment}"
-  description = "Security group for RDS — only allows EC2 tenant instances on 5432"
+  description = "Security group for RDS - only allows EC2 tenant instances on 5432"
   vpc_id      = var.vpc_id
 
   dynamic "ingress" {
@@ -54,7 +54,7 @@ resource "aws_security_group" "rds" {
     }
   }
 
-  # No egress rules — RDS does not need to initiate outbound connections
+  # No egress rules - RDS does not need to initiate outbound connections
   egress {
     description = "No outbound needed"
     from_port   = 0
@@ -86,7 +86,7 @@ resource "aws_db_subnet_group" "main" {
 
 
 # ─────────────────────────────────────────
-# RDS INSTANCE — PostgreSQL
+# RDS INSTANCE - PostgreSQL
 # Private subnet, encrypted, no public access
 # ─────────────────────────────────────────
 
@@ -105,18 +105,18 @@ resource "aws_db_instance" "main" {
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.rds.id]
 
-  # Encryption at rest — mandatory for payroll/PII data
+  # Encryption at rest - mandatory for payroll/PII data
   storage_encrypted = true
 
-  # Not publicly accessible — only reachable within VPC
+  # Not publicly accessible - only reachable within VPC
   publicly_accessible = false
 
-  # Automated backups — 7 day retention
+  # Automated backups - 7 day retention
   backup_retention_period = 7
   backup_window           = "03:00-04:00"
   maintenance_window      = "Mon:04:00-Mon:05:00"
 
-  # Disable multi-AZ for dev — enable in production
+  # Disable multi-AZ for dev - enable in production
   multi_az = false
 
   # Prevent accidental deletion in production

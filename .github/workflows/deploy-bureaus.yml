@@ -1,4 +1,4 @@
-name: Deploy — Bureaus Portal
+name: Deploy - Bureaus Portal
 
 on:
   push:

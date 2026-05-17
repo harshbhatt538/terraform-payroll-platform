@@ -23,7 +23,7 @@ resource "aws_iam_role" "companies" {
 
 resource "aws_iam_policy" "companies_s3" {
   name        = "companies-s3-policy-${var.environment}"
-  description = "Scoped S3 access for Companies tenant — prefix only"
+  description = "Scoped S3 access for Companies tenant - prefix only"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -121,7 +121,7 @@ resource "aws_iam_role" "bureaus" {
 
 resource "aws_iam_policy" "bureaus_s3" {
   name        = "bureaus-s3-policy-${var.environment}"
-  description = "Scoped S3 access for Bureaus tenant — prefix only"
+  description = "Scoped S3 access for Bureaus tenant - prefix only"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -219,7 +219,7 @@ resource "aws_iam_role" "employees" {
 
 resource "aws_iam_policy" "employees_s3" {
   name        = "employees-s3-policy-${var.environment}"
-  description = "Scoped S3 access for Employees tenant — prefix only"
+  description = "Scoped S3 access for Employees tenant - prefix only"
 
   policy = jsonencode({
     Version = "2012-10-17"

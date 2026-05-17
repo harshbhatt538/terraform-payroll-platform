@@ -14,7 +14,7 @@ output "employees_instance_id" {
 }
 
 output "tenant_security_group_ids" {
-  description = "All tenant security group IDs — passed to RDS to allow inbound 5432"
+  description = "All tenant security group IDs - passed to RDS to allow inbound 5432"
   value = [
     aws_security_group.companies.id,
     aws_security_group.bureaus.id,

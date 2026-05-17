@@ -12,7 +12,7 @@ resource "aws_s3_bucket" "payroll_documents" {
   }
 }
 
-# Block all public access — no exceptions
+# Block all public access - no exceptions
 resource "aws_s3_bucket_public_access_block" "payroll_documents" {
   bucket = aws_s3_bucket.payroll_documents.id
 
@@ -22,7 +22,7 @@ resource "aws_s3_bucket_public_access_block" "payroll_documents" {
   restrict_public_buckets = true
 }
 
-# Versioning — required by task, also important for payroll audit trail
+# Versioning - required by task, also important for payroll audit trail
 resource "aws_s3_bucket_versioning" "payroll_documents" {
   bucket = aws_s3_bucket.payroll_documents.id
 
@@ -43,7 +43,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "payroll_documents
   }
 }
 
-# Lifecycle policy — move older versions to cheaper storage
+# Lifecycle policy - move older versions to cheaper storage
 resource "aws_s3_bucket_lifecycle_configuration" "payroll_documents" {
   bucket = aws_s3_bucket.payroll_documents.id
 
@@ -78,7 +78,7 @@ resource "aws_s3_bucket_policy" "payroll_documents" {
     Version = "2012-10-17"
     Statement = [
 
-      # Companies role — can only access companies/ prefix
+      # Companies role - can only access companies/ prefix
       {
         Sid    = "AllowCompaniesPrefix"
         Effect = "Allow"
@@ -107,7 +107,7 @@ resource "aws_s3_bucket_policy" "payroll_documents" {
         }
       },
 
-      # Bureaus role — can only access bureaus/ prefix
+      # Bureaus role - can only access bureaus/ prefix
       {
         Sid    = "AllowBureausPrefix"
         Effect = "Allow"
@@ -136,7 +136,7 @@ resource "aws_s3_bucket_policy" "payroll_documents" {
         }
       },
 
-      # Employees role — can only access employees/ prefix
+      # Employees role - can only access employees/ prefix
       {
         Sid    = "AllowEmployeesPrefix"
         Effect = "Allow"
@@ -165,7 +165,7 @@ resource "aws_s3_bucket_policy" "payroll_documents" {
         }
       },
 
-      # Deny any request not using HTTPS — enforces encryption in transit
+      # Deny any request not using HTTPS - enforces encryption in transit
       {
         Sid       = "DenyNonHTTPS"
         Effect    = "Deny"

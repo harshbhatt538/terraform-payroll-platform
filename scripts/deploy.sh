@@ -2,7 +2,7 @@
 set -e
 
 # ─────────────────────────────────────────
-# Deployment script — runs on EC2 via SSM
+# Deployment script - runs on EC2 via SSM
 # Called by GitHub Actions after image push
 # ─────────────────────────────────────────
 
@@ -37,12 +37,12 @@ docker run -d \
   -e APP_ENV="$APP_ENV" \
   "$IMAGE"
 
-echo "Deployment complete — $SERVICE_NAME is running"
+echo "Deployment complete - $SERVICE_NAME is running"
 
 # Basic health check
 sleep 3
 curl -f http://localhost:8080/health || {
-  echo "Health check failed — rolling back"
+  echo "Health check failed - rolling back"
   docker stop "$SERVICE_NAME"
   exit 1
 }

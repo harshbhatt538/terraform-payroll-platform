@@ -1,4 +1,4 @@
-name: Deploy — Employees Portal
+name: Deploy - Employees Portal
 
 on:
   push:

@@ -135,7 +135,7 @@ resource "aws_network_acl" "private" {
   # Allow inbound ephemeral ports (return traffic)
   # Ephemeral ports are required because when a server initiates
   # an outbound connection, the OS assigns a random high port
-  # for the return traffic — without this rule responses are dropped
+  # for the return traffic - without this rule responses are dropped
   ingress {
     rule_no    = 120
     protocol   = "tcp"

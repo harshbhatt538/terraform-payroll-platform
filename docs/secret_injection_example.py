@@ -6,7 +6,7 @@ def get_db_credentials():
     """
     Fetch DB credentials from Secrets Manager at runtime.
     Never reads from environment variables or config files.
-    Secret name is injected via environment variable — not hardcoded.
+    Secret name is injected via environment variable - not hardcoded.
     """
     secret_name = os.environ["DB_SECRET_NAME"]
     region = os.environ.get("AWS_REGION", "eu-west-2")

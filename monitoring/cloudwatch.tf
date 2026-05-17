@@ -53,7 +53,7 @@ variable "rds_instance_identifier" {
 
 
 # ─────────────────────────────────────────
-# SNS TOPIC — Critical alerts
+# SNS TOPIC - Critical alerts
 # Single topic, email subscription
 # ─────────────────────────────────────────
 
@@ -76,7 +76,7 @@ resource "aws_sns_topic_subscription" "email" {
 # ─────────────────────────────────────────
 # CLOUDWATCH LOG GROUPS
 # Separate log group per service
-# 30 day retention — balances cost vs audit
+# 30 day retention - balances cost vs audit
 # ─────────────────────────────────────────
 
 resource "aws_cloudwatch_log_group" "companies" {
@@ -132,7 +132,7 @@ resource "aws_cloudwatch_log_group" "infrastructure" {
 
 
 # ─────────────────────────────────────────
-# EC2 CPU ALARMS — one per tenant instance
+# EC2 CPU ALARMS - one per tenant instance
 # Triggers at 80% CPU for 2 consecutive periods
 # ─────────────────────────────────────────
 
@@ -219,7 +219,7 @@ resource "aws_cloudwatch_metric_alarm" "employees_cpu" {
 
 resource "aws_cloudwatch_metric_alarm" "rds_connections" {
   alarm_name          = "oceans-across-rds-connections-high-${var.environment}"
-  alarm_description   = "RDS connection count above threshold — possible connection leak"
+  alarm_description   = "RDS connection count above threshold - possible connection leak"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 2
   metric_name         = "DatabaseConnections"
@@ -269,7 +269,7 @@ resource "aws_cloudwatch_metric_alarm" "rds_cpu" {
 
 resource "aws_cloudwatch_metric_alarm" "rds_storage" {
   alarm_name          = "oceans-across-rds-storage-low-${var.environment}"
-  alarm_description   = "RDS free storage below 5GB — risk of database failure"
+  alarm_description   = "RDS free storage below 5GB - risk of database failure"
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = 1
   metric_name         = "FreeStorageSpace"
@@ -294,7 +294,7 @@ resource "aws_cloudwatch_metric_alarm" "rds_storage" {
 # ─────────────────────────────────────────
 # RDS PUBLIC ACCESS ALARM
 # Detects if RDS is ever made publicly
-# accessible — critical security event
+# accessible - critical security event
 # ─────────────────────────────────────────
 
 resource "aws_cloudwatch_event_rule" "rds_public_access" {

@@ -1,5 +1,5 @@
 # ─────────────────────────────────────────
-# SECURITY GROUPS — one per tenant
+# SECURITY GROUPS - one per tenant
 # No inter-tenant traffic allowed
 # ─────────────────────────────────────────
 
@@ -113,7 +113,7 @@ resource "aws_security_group" "employees" {
 
 
 # ─────────────────────────────────────────
-# EC2 INSTANCES — one per tenant
+# EC2 INSTANCES - one per tenant
 # All in private subnets, no public IPs
 # ─────────────────────────────────────────
 
@@ -124,11 +124,11 @@ resource "aws_instance" "companies" {
   vpc_security_group_ids = [aws_security_group.companies.id]
   iam_instance_profile   = var.companies_profile
 
-  # No public IP — only reachable within VPC
+  # No public IP - only reachable within VPC
   associate_public_ip_address = false
 
   metadata_options {
-    # Require IMDSv2 — prevents SSRF attacks from stealing instance credentials
+    # Require IMDSv2 - prevents SSRF attacks from stealing instance credentials
     http_tokens                 = "required"
     http_put_response_hop_limit = 1
   }

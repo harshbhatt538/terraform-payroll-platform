@@ -12,7 +12,7 @@
 The incident will be detected through one or more of the following:
 
 - **CloudWatch EventBridge rule** `oceans-across-rds-public-access` fires when
-  RDS-EVENT-0088 is triggered — this event fires specifically when an RDS instance
+  RDS-EVENT-0088 is triggered - this event fires specifically when an RDS instance
   is modified to become publicly accessible
 - **SNS alert email** sent to the infrastructure team immediately
 - **AWS Config rule** `rds-instance-public-access-check` flags non-compliant state
@@ -27,16 +27,16 @@ The incident will be detected through one or more of the following:
 
 ## 2. Immediate Containment (First 15 minutes)
 
-### Step 1 — Confirm the exposure
+### Step 1 - Confirm the exposure
 ```bash
 aws rds describe-db-instances \
   --db-instance-identifier oceans-across-payroll-db-dev \
   --query 'DBInstances[0].PubliclyAccessible' \
   --region eu-west-2
 ```
-If this returns `true` — the database is exposed. Proceed immediately.
+If this returns `true` - the database is exposed. Proceed immediately.
 
-### Step 2 — Revoke public access
+### Step 2 - Revoke public access
 ```bash
 aws rds modify-db-instance \
   --db-instance-identifier oceans-across-payroll-db-dev \
@@ -45,14 +45,14 @@ aws rds modify-db-instance \
   --region eu-west-2
 ```
 
-### Step 3 — Verify RDS security group has no public inbound rules
+### Step 3 - Verify RDS security group has no public inbound rules
 ```bash
 aws ec2 describe-security-groups \
   --group-ids <rds-security-group-id> \
   --query 'SecurityGroups[0].IpPermissions' \
   --region eu-west-2
 ```
-If any rule shows `0.0.0.0/0` or `::/0` on port 5432 — remove it immediately:
+If any rule shows `0.0.0.0/0` or `::/0` on port 5432 - remove it immediately:
 ```bash
 aws ec2 revoke-security-group-ingress \
   --group-id <rds-security-group-id> \
@@ -62,7 +62,7 @@ aws ec2 revoke-security-group-ingress \
   --region eu-west-2
 ```
 
-### Step 4 — Force rotate DB credentials
+### Step 4 - Force rotate DB credentials
 ```bash
 # Generate new password in Secrets Manager
 aws secretsmanager rotate-secret \
@@ -109,7 +109,7 @@ Document every connection source IP during the exposure window.
 ```bash
 terraform plan  # should show no drift
 ```
-- If Terraform state shows drift — run `terraform apply` to reconcile
+- If Terraform state shows drift - run `terraform apply` to reconcile
 - Re-enable and verify all CloudWatch alarms are in OK state
 - Confirm SNS topic subscriptions are active
 - Rotate all application secrets as a precaution even if no breach confirmed
@@ -132,10 +132,10 @@ terraform plan  # should show no drift
 
 ## 6. Prevention
 
-- **Terraform** — `publicly_accessible = false` is enforced in code.
+- **Terraform** - `publicly_accessible = false` is enforced in code.
   Any attempt to change it creates a PR and requires review.
-- **AWS Config** — `rds-instance-public-access-check` rule continuously monitors state
-- **EventBridge rule** — fires within seconds of any RDS modification event
-- **IAM** — restrict `rds:ModifyDBInstance` to only infrastructure team roles
-- **SCPs** — in a multi-account setup, use Service Control Policies to deny
+- **AWS Config** - `rds-instance-public-access-check` rule continuously monitors state
+- **EventBridge rule** - fires within seconds of any RDS modification event
+- **IAM** - restrict `rds:ModifyDBInstance` to only infrastructure team roles
+- **SCPs** - in a multi-account setup, use Service Control Policies to deny
   `rds:ModifyDBInstance` with `PubliclyAccessible=true` at the org level
