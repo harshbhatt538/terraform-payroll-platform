@@ -71,6 +71,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Validate deployment configuration
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          INSTANCE_ID: ${{ vars.EMPLOYEES_INSTANCE_ID }}
+        run: |
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then echo "::error::Missing repository secret AWS_ACCESS_KEY_ID"; exit 1; fi
+          if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then echo "::error::Missing repository secret AWS_SECRET_ACCESS_KEY"; exit 1; fi
+          if [ -z "$INSTANCE_ID" ]; then echo "::error::Missing repository variable EMPLOYEES_INSTANCE_ID"; exit 1; fi
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -81,7 +91,7 @@ jobs:
       - name: Deploy via SSM
         run: |
           aws ssm send-command \
-            --instance-ids "${{ secrets.EMPLOYEES_INSTANCE_ID }}" \
+            --instance-ids "${{ vars.EMPLOYEES_INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
             --parameters commands=[
               "export GITHUB_REPOSITORY=${{ github.repository }}",
