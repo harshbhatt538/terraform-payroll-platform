@@ -10,7 +10,7 @@ on:
 
 env:
   SERVICE_NAME: companies
-  AWS_REGION: eu-west-2
+  AWS_REGION: ap-south-1
 
 permissions:
   contents: read
