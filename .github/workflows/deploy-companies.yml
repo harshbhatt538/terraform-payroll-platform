@@ -12,6 +12,10 @@ env:
   SERVICE_NAME: companies
   AWS_REGION: eu-west-2
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build-and-test:
     name: Build & Test
@@ -52,8 +56,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          # GHCR_TOKEN stored in GitHub Secrets — never in YAML
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push image to registry
         run: |
