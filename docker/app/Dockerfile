@@ -1,5 +1,5 @@
 # Use a specific slim image version to reduce attack surface and avoid known vulnerabilities
-FROM python:3.11.18-slim
+FROM python:3.11.15-slim
 
 # Create non-root user — never run containers as root
 RUN groupadd -r appuser && useradd -r -g appuser appuser
